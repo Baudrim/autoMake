@@ -97,16 +97,20 @@ include \$(wildcard \$(DEPS_DIR)/**/*.d)
 			mkdir src/Common;
 			mkdir src/Functions;
 			mkdir include;
-			echo "#ifndef COMMON_H
+			if [ ! -f include/common.h ];then
+				echo "#ifndef COMMON_H
 
 # define COMMON_H
 
-#endif" 	> include/common.h;
-			echo "#ifndef FUNCTIONS_H
+#endif" 		> include/common.h;
+			fi
+			if [ ! -f include/functions.h ];then
+				echo "#ifndef FUNCTIONS_H
 
 # define FUNCTIONS_H
 
-#endif" 	> include/functions.h;
+#endif" 		> include/functions.h;
+			fi
 			find -name '*.c' > src.mk;
 			sed -i 's_\./_SRC += _g' src.mk;
 			echo "${GREEN}Success !\nDon't fortget to use \"./automake.sh update\" when you add c file.${NC}";
