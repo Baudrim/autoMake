@@ -110,9 +110,9 @@ include \$(wildcard \$(DEPS_DIR)/**/*.d)
 #endif" 		> include/common.h;
 			fi
 			if [ ! -f include/$1.h ];then
-				echo "#ifndef $upper_H
+				echo "#ifndef ${upper}_H
 
-# define $upper_H
+# define ${upper}_H
 
 #endif" 		> include/$1.h;
 			fi
