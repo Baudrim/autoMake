@@ -7,7 +7,6 @@ file_name=*.c
 file_count=$(find $directory_path -name $file_name | wc -l)
 upper=$(echo $1 | tr '[:lower:]' '[:upper:]')
 str="Some string"
-s="test"
 cap=$(echo $1 | sed 's/./\U&/')
 
 
@@ -115,6 +114,9 @@ include \$(wildcard \$(DEPS_DIR)/**/*.d)
 # define ${upper}_H
 
 #endif" 		> include/$1.h;
+			fi
+			if [ ! -f src/$cap/$1.c ];then
+				touch src/$cap/$1.c;
 			fi
 			find -name '*.c' > src.mk;
 			sed -i 's_\./_SRC += _g' src.mk;
