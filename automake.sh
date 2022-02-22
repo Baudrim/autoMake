@@ -5,6 +5,11 @@ NC='\033[0m' # No Color
 directory_path=./
 file_name=*.c
 file_count=$(find $directory_path -name $file_name | wc -l)
+upper=$(echo $1 | tr '[:lower:]' '[:upper:]')
+str="Some string"
+s="test"
+cap=$(echo $1 | sed 's/./\U&/')
+
 
 if [ -z "$1" ];
 then
@@ -65,7 +70,7 @@ endif
 include src.mk
 
 OBJS = \$(patsubst src/%.c, \$(OBJS_DIR)/%.o, \$(SRC))
-OBJS_FUNCTIONS = \$(filter \$(OBJS_DIR)/Functions/%, \$(OBJS))
+OBJS_$upper = \$(filter \$(OBJS_DIR)/$cap/%, \$(OBJS))
 OBJS_COMMON = \$(filter \$(OBJS_DIR)/Common/%, \$(OBJS))
 
 all: $1
@@ -75,7 +80,7 @@ all: $1
 	\$(CC) \$(CFLAGS) -c -o \$@ \$<
 	@\$(POSTCOMPILE)
 
-$1: \$(OBJS_FUNCTIONS) \$(OBJS_COMMON) 
+$1: \$(OBJS_$upper) \$(OBJS_COMMON) 
 
 $1:
 	\$(CC) -o \$@ \$^ \$(CFLAGS)
@@ -95,7 +100,7 @@ include \$(wildcard \$(DEPS_DIR)/**/*.d)
 .PHONY: all clean fclean re test" > Makefile;
 			mkdir src;
 			mkdir src/Common;
-			mkdir src/Functions;
+			mkdir src/$cap;
 			mkdir include;
 			if [ ! -f include/common.h ];then
 				echo "#ifndef COMMON_H
@@ -104,12 +109,12 @@ include \$(wildcard \$(DEPS_DIR)/**/*.d)
 
 #endif" 		> include/common.h;
 			fi
-			if [ ! -f include/functions.h ];then
-				echo "#ifndef FUNCTIONS_H
+			if [ ! -f include/$1.h ];then
+				echo "#ifndef $upper_H
 
-# define FUNCTIONS_H
+# define $upper_H
 
-#endif" 		> include/functions.h;
+#endif" 		> include/$1.h;
 			fi
 			find -name '*.c' > src.mk;
 			sed -i 's_\./_SRC += _g' src.mk;
