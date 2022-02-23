@@ -49,7 +49,7 @@ else
 			echo "${GREEN}Done !${NC}";
 		else
 			echo "CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude
 
 BUILD_DIR = build
 OBJS_DIR = \$(BUILD_DIR)/objs
